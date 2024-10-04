@@ -1,23 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import ListBookItem from '../Components/ListBookItem/ListBookItem';
+import { getReadData, getWishlistData } from '../Utilities/localstorage';
 
 const ListedBook = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [books, setBooks] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [read, setRead] = useState([]);
+
+  const allBooks = useLoaderData();
 
   useEffect(() => {
-    fetch('../../../public/bookData.json')
-      .then(res => res.json())
-      .then(data => setBooks(data))
-  }, [])
+    const savedWishlistData = getWishlistData();
+    const savedReadtData = getReadData();
+
+    if (allBooks.length > 0) {
+      const currentData = [];
+      for (const id of savedWishlistData) {
+        const currentWishlist = allBooks.find(book => book.bookId === id);
+        currentData.push(currentWishlist);
+      }
+      setWishlist(currentData);
+    }
+    if (allBooks.length > 0) {
+      const currentData = [];
+      for (const id of savedReadtData) {
+        const currentWishlist = allBooks.find(book => book.bookId === id);
+        currentData.push(currentWishlist);
+      }
+      setRead(currentData);
+    }
+  }, [allBooks])
+
 
   return (
     <div>
       <div className="container mx-auto px-3">
         <h2 className='text-3xl font-bold text-center p-4 rounded-lg bg-base-200'>Books</h2>
         <div className='py-12'>
-          <div className='text-center'>
+          <div className='text-center mb-4'>
             <select className="select select-success w-2/12 max-w-xs">
               <option disabled selected>Sort By</option>
               <option>Rating</option>
@@ -27,26 +48,26 @@ const ListedBook = () => {
           </div>
           <div>
             <div>
-              <div role="tablist" className="tabs tabs-boxed">
+              <div role="tablist" className="tabs tabs-boxed flex">
                 <Link role="tab" className={`tab ${activeTab === 0 ? 'tab-active' : ''}`}
-                  onClick={() => setActiveTab(0)}>Tab 1 </Link>
+                  onClick={() => setActiveTab(0)}>Read Books</Link>
                 <Link role="tab" className={`tab ${activeTab === 1 ? 'tab-active' : ''}`}
-                  onClick={() => setActiveTab(1)}>Tab 2</Link>
+                  onClick={() => setActiveTab(1)}> Wishlist Books</Link>
               </div>
               <div className="mt-4">
                 {activeTab === 0 &&
                   <div className='grid grid-cols-1 gap-4'>
                     {
-                      books.map(book => <ListBookItem key={book.bookId} book={book} />)
+                      read.map(book => <ListBookItem key={book.bookId} book={book} />)
                     }
                   </div>
                 }
                 {activeTab === 1 &&
                   <div className='grid grid-cols-1 gap-4'>
-                  {
-                    books.map(book => <ListBookItem key={book.bookId} book={book} />)
-                  }
-                </div>
+                    {
+                      wishlist.map(book => <ListBookItem key={book.bookId} book={book} />)
+                    }
+                  </div>
                 }
               </div>
             </div>

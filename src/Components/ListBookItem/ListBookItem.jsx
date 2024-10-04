@@ -1,7 +1,5 @@
-import React from 'react';
-import { BiMap, BiStar } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
-import BluBtn from '../share/BluBtn/BluBtn';
+import { useEffect } from 'react';
+import { BiMap } from 'react-icons/bi';
 
 const ListBookItem = ({ book }) => {
   const { tags, bookName, author, image, category, rating, totalPages, yearOfPublishing, publisher } = book;
@@ -55,7 +53,7 @@ const ListBookItem = ({ book }) => {
           <button className='bg-[#ffad332c] text-[#FFAC33] py-[3px] px-3 rounded-full'>Rating: {rating}</button>
 
           <button className='bg-[#23BE0A] text-white py-[3px] px-3 rounded-full'>View Details</button>
-          
+
         </div>
       </div>
     </div>

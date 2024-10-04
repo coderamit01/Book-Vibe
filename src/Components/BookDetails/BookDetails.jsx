@@ -37,8 +37,6 @@ const BookDetails = () => {
     }
   }
 
-
-
   return (
     <div className='pt-5 pb-12'>
       <div className="container mx-auto px-3">

@@ -22,6 +22,7 @@ const Route = createBrowserRouter([
       },
       {
         path: '/read-book',
+        loader: () => fetch('../../public/bookData.json'),
         element: <ToRead />
       },
       {

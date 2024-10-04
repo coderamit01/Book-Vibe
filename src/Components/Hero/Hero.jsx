@@ -8,7 +8,7 @@ const Hero = () => {
         <div className="grid md:grid-cols-2 gap-3 items-center px-3 md:px-20">
           <div>
             <h1 className="text-5xl font-bold mb-10 text-black">Books to freshen up your bookshelf</h1>
-            <GreenBtn text="View The List" link='#' />
+            <GreenBtn text="View The List" link='/listed-book' />
           </div>
           <img
             src={BookImg}

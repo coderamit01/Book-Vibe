@@ -1,6 +1,7 @@
 import GreenBtn from '../share/GreenBtn/GreenBtn';
 import BluBtn from '../share/BluBtn/BluBtn';
 import NavItem from '../NavItem/NavItem';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 
@@ -41,7 +42,7 @@ const Header = () => {
                 {menuItem}
               </ul>
             </div>
-            <a className="text-3xl font-bold">Book Vibe</a>
+            <Link to="/" className="text-3xl font-bold">Book Vibe</Link>
           </div>
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1 space-x-1">

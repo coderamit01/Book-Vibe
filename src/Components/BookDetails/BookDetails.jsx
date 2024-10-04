@@ -3,13 +3,42 @@ import { BiStar } from 'react-icons/bi';
 import { useLoaderData, useParams } from 'react-router-dom';
 import BluBtn from '../share/BluBtn/BluBtn';
 import BorderBtn from '../share/BorderBtn/BorderBtn';
+import { addReadToLS, addWishlistToLS, getReadData } from '../../Utilities/localstorage';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BookDetails = () => {
   const book = useLoaderData();
   const { id } = useParams();
   const currentId = parseInt(id);
   const currentBook = book.find(item => item.bookId === currentId);
-  const { bookName, author, image, category, rating, review, totalPages, tags, publisher, yearOfPublishing } = currentBook;
+  const {bookId, bookName, author, image, category, rating, review, totalPages, tags, publisher, yearOfPublishing } = currentBook;
+
+
+  const handleRead = (id) => {
+    if(addReadToLS(id)){
+      toast.warning("Already Exists in Read",{ autoClose: 1000 })
+    }else{
+      toast.success("Successfuly Added to Read",{ autoClose: 1000 })
+    }
+  }
+
+  const handleWishlist = (id) => {
+    const readId = getReadData();
+    const existsInRead = readId.find(itemId => itemId === id);
+    if(!existsInRead) {
+      if(addWishlistToLS(id)){
+        toast.warning("Already Exists in Wishlist",{ autoClose: 1000 })
+      }else{
+        toast.success("Successfuly Added To Wishlist",{ autoClose: 1000 })
+      }
+    }else{
+      toast.warning("Already Read",{ autoClose: 1000 })
+    }
+  }
+
+
+
   return (
     <div className='pt-5 pb-12'>
       <div className="container mx-auto px-3">
@@ -62,15 +91,19 @@ const BookDetails = () => {
                 <p className='text-base text-slate-700 font-semibold'>Rating:</p>
                 <div className='col-span-2'>
                   <strong className='flex items-center space-x-1'>
-                    <sapn>{rating}</sapn>
+                    <span>{rating}</span>
                     <BiStar />
                   </strong>
                 </div>
               </div>
             </div>
             <div className='flex items-center space-x-2 pt-3'>
-              <BorderBtn text="Read" link="#" />
-              <BluBtn text="Wishlist" link="#" />
+              <div onClick={() => handleRead(bookId)}>
+                <BorderBtn text="Read" link="#" />
+              </div>
+              <div onClick={() => handleWishlist(bookId)}>
+                <BluBtn text="Wishlist" link="#" />
+              </div>
             </div>
           </div>
         </div>
